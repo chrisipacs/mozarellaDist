@@ -5989,7 +5989,7 @@
 	var host = 'http://localhost:8280';
 	
 	if (true) {
-	  var _host = 'mysterious-cove-92631.herokuapp.com';
+	  host = 'mysterious-cove-92631.herokuapp.com';
 	}
 	
 	exports.default = host;
