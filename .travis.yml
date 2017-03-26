@@ -1,3 +1,7 @@
 language: node_js
 node_js:
 - '6.1'
+deploy:
+  provider: heroku
+  api_key: 99cf39a1-9312-4e58-914c-00098e3980e0
+  app: mozarella
