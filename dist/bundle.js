@@ -24982,11 +24982,10 @@
 	                _react2.default.createElement(
 	                    'div',
 	                    null,
-	                    'Not a member? ',
 	                    _react2.default.createElement(
-	                        'a',
-	                        { href: '/signup' },
-	                        'Sign up'
+	                        _reactRouter.Link,
+	                        { to: '/signup' },
+	                        'Click to sign up'
 	                    )
 	                )
 	            );
