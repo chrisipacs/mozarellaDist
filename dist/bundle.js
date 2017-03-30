@@ -5989,7 +5989,7 @@
 	var host = 'http://localhost:8280';
 	
 	if (true) {
-	  host = 'http://mysterious-cove-92631.herokuapp.com';
+	  host = 'https://mysterious-cove-92631.herokuapp.com';
 	}
 	
 	exports.default = host;
@@ -15245,7 +15245,7 @@
 /* 262 */
 /***/ function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
+	'use strict';
 	
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -15271,7 +15271,7 @@
 	 * @return {?DOMElement}
 	 */
 	function getActiveElement(doc) /*?DOMElement*/{
-	  doc = doc || global.document;
+	  doc = doc || (typeof document !== 'undefined' ? document : undefined);
 	  if (typeof doc === 'undefined') {
 	    return null;
 	  }
@@ -15283,7 +15283,6 @@
 	}
 	
 	module.exports = getActiveElement;
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
 /* 263 */
