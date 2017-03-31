@@ -13717,7 +13717,6 @@
 	    return function (dispatch) {
 	        dispatch((0, _ajaxStatusActions.beginAjaxCall)());
 	        return _middleware.loginApi.login(username, password).then(function (student) {
-	            console.log("STUDENT" + JSON.stringify(student));
 	            if (window.localStorage) {
 	                localStorage.setItem('student', JSON.stringify(student));
 	            }
@@ -14234,7 +14233,6 @@
 	function requireAuth(nextState, replace) {
 	
 	  if (typeof Storage !== "undefined") {
-	    console.log('student in localStorage: ' + localStorage.getItem("student"));
 	    var student = localStorage.getItem("student");
 	    var nextPathname = '/';
 	
@@ -21840,7 +21838,6 @@
 	
 	function createLanguageList(ISOLangs) {
 	    //TODO test
-	    console.log('CREATEEEEEE');
 	    var languageObj = ISOLangs;
 	    var result = [];
 	
@@ -22584,7 +22581,6 @@
 	};
 	
 	var toExport = createLanguageList(isoLangs);
-	console.log('exporting...');
 	
 	exports.default = toExport;
 
@@ -22928,7 +22924,6 @@
 	                    //studentId
 	                    return response.text();
 	                }).then(function (response) {
-	                    console.log('and the json is: ' + parseInt(response));
 	                    resolve(response);
 	                }).catch(function (error) {
 	                    console.log('request failed', error);
@@ -23224,7 +23219,6 @@
 	    _createClass(LearnItemPage, [{
 	        key: "handlePageChange",
 	        value: function handlePageChange(pageNumber) {
-	            console.log("active page is " + pageNumber);
 	            this.setState({ activePage: pageNumber });
 	        }
 	    }, {
@@ -23501,7 +23495,6 @@
 	}(_react2.default.Component);
 	
 	function mapStateToProps(state, ownProps) {
-	    console.log('activeList: ' + state.listsContext.activeList);
 	    return {
 	        listId: state.listsContext.activeList.id
 	    };
@@ -23663,7 +23656,6 @@
 	            var _this2 = this;
 	
 	            if (this.state.upcomingLearnItems && this.state.upcomingLearnItems.length > 0) {
-	                console.log('setting upcoming: ' + JSON.stringify(this.state.upcomingLearnItems));
 	                this.setState(function (previousState) {
 	                    return (0, _reactAddonsUpdate2.default)(previousState, {
 	                        currentLearnItem: { $set: _this2.state.upcomingLearnItems[0] },
@@ -23676,7 +23668,6 @@
 	                var pathElements = this.props.location.pathname.split('/');
 	                var listId = pathElements[pathElements.length - 1];
 	
-	                console.log('load new upcoming...' + listId);
 	                this.props.studentActions.loadLearnItemsToLearn(this.props.student.id, listId);
 	            }
 	        }
@@ -23694,7 +23685,6 @@
 	        key: 'updateStateOnKeyPress',
 	        value: function updateStateOnKeyPress(event) {
 	            var key = event.key;
-	            console.log('key:' + key);
 	
 	            if (key == 'Enter') {
 	                this.checkSolution('', true);
@@ -24465,24 +24455,16 @@
 	    }, {
 	        key: 'updateFromLanguage',
 	        value: function updateFromLanguage(newLanguage) {
-	            var _this2 = this;
-	
 	            var listUnderEdit = JSON.parse(JSON.stringify(this.state.listsContext.activeList));
 	            listUnderEdit['fromLanguage'] = newLanguage;
-	            return this.setState({ listsContext: { activeList: listUnderEdit } }, function () {
-	                console.log('new state: ' + JSON.stringify(_this2.state));
-	            });
+	            return this.setState({ listsContext: { activeList: listUnderEdit } }, function () {});
 	        }
 	    }, {
 	        key: 'updateToLanguage',
 	        value: function updateToLanguage(newLanguage) {
-	            var _this3 = this;
-	
 	            var listUnderEdit = JSON.parse(JSON.stringify(this.state.listsContext.activeList));
 	            listUnderEdit['toLanguage'] = newLanguage;
-	            return this.setState({ listsContext: { activeList: listUnderEdit } }, function () {
-	                console.log('new state: ' + JSON.stringify(_this3.state));
-	            });
+	            return this.setState({ listsContext: { activeList: listUnderEdit } }, function () {});
 	        }
 	    }, {
 	        key: 'redirectToListPage',
@@ -24508,12 +24490,12 @@
 	    }, {
 	        key: 'saveList',
 	        value: function saveList() {
-	            var _this4 = this;
+	            var _this2 = this;
 	
 	            var listToSave = this.processListBeforeSave(this.state.listsContext.activeList);
 	
 	            this.props.actions.saveList(this.state.listsContext.activeList).then(function () {
-	                _this4.props.actions.loadLists(_this4.state.activePage, _PageSize2.default);
+	                _this2.props.actions.loadLists(_this2.state.activePage, _PageSize2.default);
 	            });
 	        }
 	    }, {
