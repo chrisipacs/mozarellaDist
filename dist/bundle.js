@@ -3426,6 +3426,10 @@
 	        return _middleware.listApi.getList(listId).then(function (list) {
 	            loadLearnItems(list.id);
 	            dispatch(loadListSuccess(list));
+	        }).catch(function (error) {
+	            console.log('error cached');
+	            dispatch((0, _ajaxStatusActions.ajaxCallError)());
+	            throw error;
 	        });
 	    };
 	}
@@ -3435,6 +3439,9 @@
 	        dispatch((0, _ajaxStatusActions.beginAjaxCall)());
 	        return _middleware.listApi.addList(list).then(function (addedList) {
 	            dispatch(saveListSuccess(addedList));
+	        }).catch(function (error) {
+	            dispatch((0, _ajaxStatusActions.ajaxCallError)());
+	            throw error;
 	        });
 	    };
 	}
@@ -3454,10 +3461,18 @@
 	        if (studentId == undefined) {
 	            return _middleware.listApi.getLists(pageNumber, pageSize, studentId).then(function (result) {
 	                dispatch(loadListsSuccess(result.lists, result.totalCount));
+	            }).catch(function (error) {
+	                console.log('cached!');
+	                dispatch((0, _ajaxStatusActions.ajaxCallError)());
+	                throw error;
 	            });
 	        } else {
 	            return _middleware.listApi.getListsOfStudent(pageNumber, pageSize, studentId).then(function (result) {
 	                dispatch(loadStudentListsSuccess(result.lists, result.totalCount));
+	            }).catch(function (error) {
+	                console.log('cached!!');
+	                dispatch((0, _ajaxStatusActions.ajaxCallError)());
+	                throw error;
 	            });
 	        }
 	    };
@@ -3470,6 +3485,9 @@
 	        dispatch((0, _ajaxStatusActions.beginAjaxCall)());
 	        return _middleware.learnItemApi.getLearnItemsForList(listId, pageNumber).then(function (result) {
 	            dispatch(loadLearnitemSuccess(pageNumber, result.totalCount, result.learnItems));
+	        }).catch(function (error) {
+	            dispatch((0, _ajaxStatusActions.ajaxCallError)());
+	            throw error;
 	        });
 	    };
 	}
@@ -13674,6 +13692,9 @@
 	        dispatch((0, _ajaxStatusActions.beginAjaxCall)());
 	        return _middleware.learnItemApi.saveLearnItem(learnItem, listId).then(function (learnItem) {
 	            dispatch(saveLearnItemSuccess(learnItem));
+	        }).catch(function (error) {
+	            dispatch((0, _ajaxStatusActions.ajaxCallError)());
+	            throw error;
 	        });
 	    };
 	}
@@ -13722,6 +13743,7 @@
 	            }
 	            dispatch(loginSuccess(student));
 	        }).catch(function (error) {
+	            dispatch((0, _ajaxStatusActions.ajaxCallError)());
 	            throw error;
 	        });
 	    };
@@ -13782,6 +13804,9 @@
 	        dispatch((0, _ajaxStatusActions.beginAjaxCall)());
 	        return _middleware.studentApi.getLearnItemsToLearn(listId, numberOfLearnItems).then(function (learnItems) {
 	            dispatch(loadLearnableLearnItemsSuccess(learnItems));
+	        }).catch(function (error) {
+	            dispatch((0, _ajaxStatusActions.ajaxCallError)());
+	            throw error;
 	        });
 	    };
 	}
@@ -13793,6 +13818,7 @@
 	            //studentId not needed, will be used at login
 	            dispatch(signupToListSuccess(list));
 	        }).catch(function (error) {
+	            dispatch((0, _ajaxStatusActions.ajaxCallError)());
 	            throw error;
 	        });
 	    };
@@ -13805,6 +13831,7 @@
 	            //studentId not needed, will be used at login
 	            dispatch(deregisterFromListSuccess(list));
 	        }).catch(function (error) {
+	            dispatch((0, _ajaxStatusActions.ajaxCallError)());
 	            throw error;
 	        });
 	    };
@@ -22626,6 +22653,7 @@
 	            //studentId not needed, will be used at login
 	            dispatch(signupSuccess());
 	        }).catch(function (error) {
+	            dispatch((0, _ajaxStatusActions.ajaxCallError)());
 	            throw error;
 	        });
 	    };
@@ -22729,6 +22757,7 @@
 	                (0, _RequestObjects2.default)('/api/learnitemlists?pagenumber=' + pageNumber + '&&pagesize=' + pageSize, 'GET').then(function (result) {
 	                    resolve({ totalCount: Number(result.headers.get('X-total-count')), lists: result.objects });
 	                }).catch(function (error) {
+	                    console.log('REJECTING LIST QUERY');
 	                    reject(error);
 	                });
 	            });
@@ -22787,10 +22816,6 @@
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Created by krisztian on 2016. 11. 28..
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
-	/**
-	 * Created by krisztian on 2016. 10. 30..
-	 */
-	
 	
 	var _host = __webpack_require__(109);
 	
