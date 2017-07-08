@@ -10869,6 +10869,8 @@
 	        || nextProps.html !== this.htmlEl.innerHTML && nextProps.html !== this.props.html
 	        // ...or if editing is enabled or disabled.
 	        || this.props.disabled !== nextProps.disabled
+	        // ...or if className changed
+	        || this.props.className !== nextProps.className
 	      );
 	    }
 	  }, {
@@ -23990,7 +23992,7 @@
 	 * Created by krisztian on 2017. 04. 23..
 	 */
 	
-	var uri = "https://glosbe.com/gapi/translate?from={fromLanguage}&dest={toLanguage}&format=json&phrase={toTranslate}&pretty=true";
+	var uri = "https://glosbe.com/gapi/translate?from={toLanguage}&dest={fromLanguage}&format=json&phrase={toTranslate}&pretty=true";
 	
 	var getTranslation = function getTranslation(fromLanguage, toLanguage, toTranslate) {
 	    var correctUri = uri.replace('\{fromLanguage\}', fromLanguage).replace('\{toLanguage\}', toLanguage).replace('\{toTranslate\}', toTranslate);
@@ -24481,7 +24483,7 @@
 	            'div',
 	            { className: 'panel-body' },
 	            isNew ? _react2.default.createElement(_TextInput2.default, { name: 'text', html: value.text }) : _react2.default.createElement(_reactContenteditable2.default, { html: value.text, disabled: true, onChange: function onChange() {} }),
-	            'Acceptable solutions: ',
+	            'Meaning(s): ',
 	            isNew ? _react2.default.createElement(_TextInput2.default, { name: 'translations', html: translationListToString(value.translations) }) : _react2.default.createElement(_reactContenteditable2.default, { html: translationListToString(value.translations) })
 	        )
 	    );
@@ -24695,10 +24697,11 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'panel-body' },
-	                        'Learnitem',
+	                        'Word/expression you want to learn',
 	                        _react2.default.createElement(_TextInput2.default, { name: 'text', value: this.state.learnItem.text, onChange: this.modifyText }),
 	                        _react2.default.createElement(_dictionaryTranslationList2.default, { translations: this.state.translationsFromDictionary, onClick: this.onDictionaryTranslationSelection }),
-	                        'Translations (separated by comma)',
+	                        _react2.default.createElement('br', null),
+	                        'Translations in your language (separated by comma, each of them should be unique in this list)',
 	                        _react2.default.createElement(_TextInput2.default, { name: 'translations', value: this.state.learnItem.translations, onChange: this.modifyTranslations }),
 	                        _react2.default.createElement('br', null),
 	                        _react2.default.createElement(
@@ -24765,17 +24768,17 @@
 	        _react2.default.createElement(
 	            "h1",
 	            null,
-	            learnItem.text
+	            learnItem.translations[0]
 	        ),
 	        !learnItem.alreadyPracticed && _react2.default.createElement(
 	            "div",
 	            { className: "alert alert-success", role: "alert" },
-	            learnItem.translations[0]
+	            learnItem.text
 	        ),
 	        showSolution && _react2.default.createElement(
 	            "div",
 	            { className: "alert alert-danger", role: "alert" },
-	            learnItem.translations[0]
+	            learnItem.text
 	        )
 	    );
 	}; /**
@@ -24980,16 +24983,8 @@
 	
 	            var pathElements = this.props.location.pathname.split('/');
 	            var listId = pathElements[pathElements.length - 1];
-	            var isCorrect = false;
 	
-	            for (var i = 0; i <= this.state.currentLearnItem.translations.length; i++) {
-	                if (solution == this.state.currentLearnItem.translations[i]) {
-	                    isCorrect = true;
-	                    break;
-	                }
-	            }
-	
-	            if (isCorrect) {
+	            if (solution == this.state.currentLearnItem.text) {
 	                var playing = this.state.showSolution ? _reactSound2.default.status.STOPPED : _reactSound2.default.status.PLAYING;
 	                var pointValue = this.state.currentLearnItem.pointValue != undefined ? this.state.currentLearnItem.pointValue : 100;
 	                var points = this.state.showSolution ? 0 : pointValue;
