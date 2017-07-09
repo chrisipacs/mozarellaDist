@@ -1216,6 +1216,7 @@
 	var DELETE_LEARNITEM_SUCCESS = exports.DELETE_LEARNITEM_SUCCESS = 'DELETE_LEARNITEM_SUCCESS';
 	
 	var LOAD_LEARNABLE_LEARNITEMS_SUCCESS = exports.LOAD_LEARNABLE_LEARNITEMS_SUCCESS = 'LOAD_LEARNABLE_LEARNITEMS_SUCCESS';
+	var REMOVE_LEARNABLE_LEARNITEM = exports.REMOVE_LEARNABLE_LEARNITEM = 'REMOVE_LEARNABLE_LEARNITEM';
 	
 	//login
 	var LOGIN_SUCCESS = exports.LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -15102,6 +15103,7 @@
 	exports.loadLearnableLearnItemsSuccess = loadLearnableLearnItemsSuccess;
 	exports.signupToListSuccess = signupToListSuccess;
 	exports.deregisterFromListSuccess = deregisterFromListSuccess;
+	exports.removeLearnableLearnItem = removeLearnableLearnItem;
 	exports.loadLearnItemsToLearn = loadLearnItemsToLearn;
 	exports.subscribeStudentToList = subscribeStudentToList;
 	exports.deregisterStudentFromList = deregisterStudentFromList;
@@ -15136,6 +15138,10 @@
 	
 	function deregisterFromListSuccess(list) {
 	    return { type: types.DEREGISTER_STUDENT_FROM_LIST_SUCCESS, list: list };
+	}
+	
+	function removeLearnableLearnItem(id) {
+	    return { type: types.REMOVE_LEARNABLE_LEARNITEM, id: id };
 	}
 	
 	function loadLearnItemsToLearn(listId) {
@@ -24939,17 +24945,12 @@
 	    }, {
 	        key: 'getNextLearnItem',
 	        value: function getNextLearnItem() {
-	            var _this2 = this;
-	
-	            if (this.state.upcomingLearnItems && this.state.upcomingLearnItems.length > 0) {
-	                this.setState(function (previousState) {
-	                    return (0, _reactAddonsUpdate2.default)(previousState, {
-	                        currentLearnItem: { $set: _this2.state.upcomingLearnItems[0] },
-	                        upcomingLearnItems: { $set: _this2.state.upcomingLearnItems.splice(1) },
-	                        showSolution: { $set: false }
-	                    });
-	                }, this.resetCountDown);
+	            if (this.props.learnItems.length > 3) {
+	                console.log('remove!!!');
+	                this.props.studentActions.removeLearnableLearnItem(0);
 	            } else {
+	                console.log('else!!');
+	
 	                //the action triggered by this will call getNextLearnItem again
 	                var pathElements = this.props.location.pathname.split('/');
 	                var listId = pathElements[pathElements.length - 1];
@@ -24960,11 +24961,11 @@
 	    }, {
 	        key: 'updateStateOnType',
 	        value: function updateStateOnType(event) {
-	            var _this3 = this;
+	            var _this2 = this;
 	
 	            var solution = event.target.value;
 	            this.setState({ typedSolution: solution }, function () {
-	                _this3.checkSolution(solution);
+	                _this2.checkSolution(solution);
 	            });
 	        }
 	    }, {
@@ -25019,12 +25020,16 @@
 	        key: 'componentWillReceiveProps',
 	        value: function componentWillReceiveProps(nextProps) {
 	            var that = this;
+	
+	            console.log('willreceive, nextProps: ' + JSON.stringify(nextProps));
+	
 	            if (nextProps.learnItems && nextProps.learnItems.length > 0) {
 	                this.setState(function (previousState) {
 	                    return (0, _reactAddonsUpdate2.default)(previousState, {
-	                        upcomingLearnItems: { $set: nextProps.learnItems }
+	                        currentLearnItem: { $set: nextProps.learnItems[0] },
+	                        showSolution: { $set: false }
 	                    });
-	                }, that.getNextLearnItem);
+	                }, this.resetCountDown);
 	            } else {
 	                this.setState({ ranOutOfLearnItems: true });
 	            }
@@ -25037,7 +25042,7 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var _this4 = this;
+	            var _this3 = this;
 	
 	            var that = this;
 	            return _react2.default.createElement(
@@ -25056,7 +25061,7 @@
 	                    playStatus: this.state.soundPlaying,
 	                    playFromPosition: 1000 /* in milliseconds */,
 	                    onFinishedPlaying: function onFinishedPlaying() {
-	                        return _this4.setState({ soundPlaying: _reactSound2.default.status.STOPPED });
+	                        return _this3.setState({ soundPlaying: _reactSound2.default.status.STOPPED });
 	                    } }),
 	                this.state.ranOutOfLearnItems && _react2.default.createElement(
 	                    'h1',
@@ -27077,16 +27082,38 @@
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
-	/**
-	 * Created by krisztian on 2017. 01. 21..
-	 */
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } } /**
+	                                                                                                                                                                                                     * Created by krisztian on 2017. 01. 21..
+	                                                                                                                                                                                                     */
+	
+	
 	function listReducer() {
 	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _initialState2.default.learnContext;
 	    var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 	
 	    switch (action.type) {
 	        case types.LOAD_LEARNABLE_LEARNITEMS_SUCCESS:
-	            return Object.assign({}, state, { learnItems: action.learnItems });
+	            {
+	                var newLearnItems = [];
+	
+	                var idsStillInList = state.learnItems.map(function (item) {
+	                    return item.id;
+	                });
+	
+	                var uniqueNewItems = action.learnItems.filter(function (item) {
+	                    return idsStillInList.indexOf(item.id) == -1;
+	                });
+	
+	                return Object.assign({}, state, { learnItems: [].concat(_toConsumableArray(state.learnItems), _toConsumableArray(uniqueNewItems)) });
+	            }
+	        case types.REMOVE_LEARNABLE_LEARNITEM:
+	            {
+	
+	                var _newLearnItems = [].concat(_toConsumableArray(state.learnItems));
+	                _newLearnItems.shift();
+	
+	                return Object.assign({}, state, { learnItems: _newLearnItems });
+	            }
 	        default:
 	            return state;
 	    }
