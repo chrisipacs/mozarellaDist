@@ -26054,7 +26054,7 @@
 	        key: 'render',
 	        value: function render() {
 	            var that = this;
-	            console.log('rendering');
+	            console.log('rendering, state: ' + JSON.stringify(this.state));
 	            return _react2.default.createElement(
 	                'div',
 	                null,
@@ -26064,14 +26064,14 @@
 	                    _react2.default.createElement(_reactContenteditable2.default, {
 	                        name: 'title',
 	                        html: that.state.list.name // innerHTML of the editable div
-	                        , disabled: false // use true to disable edition
+	                        , disabled: !this.state.enableEditing // use true to disable edition
 	                        , onChange: this.updateListName // handle innerHTML change
 	                    })
 	                ),
 	                _react2.default.createElement(_reactContenteditable2.default, {
 	                    name: 'description',
 	                    html: that.state.list.description // innerHTML of the editable div
-	                    , disabled: false // use true to disable edition
+	                    , disabled: !this.state.enableEditing // use true to disable edition
 	                    , onChange: this.updateListDescription // handle innerHTML change
 	                }),
 	                _react2.default.createElement('br', null),
