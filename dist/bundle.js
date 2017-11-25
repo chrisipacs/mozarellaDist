@@ -25969,6 +25969,8 @@
 	            });
 	
 	            this.setState({ list: { name: this.props.list.name, description: this.props.list.description }, activePage: 0 });
+	
+	            this.props.actions.disableEditing(); //new
 	        }
 	    }, {
 	        key: 'componentWillReceiveProps',
@@ -26011,19 +26013,16 @@
 	    }, {
 	        key: 'disableEditing',
 	        value: function disableEditing() {
-	            console.log('changing editing to ' + !this.state.enableEditing);
 	            this.props.actions.disableEditing();
 	        }
 	    }, {
 	        key: 'changeEditingToTrue',
 	        value: function changeEditingToTrue() {
-	            console.log('changing editing to true');
 	            this.props.actions.enableEditing();
 	        }
 	    }, {
 	        key: 'save',
 	        value: function save() {
-	            console.log('save');
 	            this.setState(Object.assign(this.state, { changedSinceLastSave: false })); //TODO maybe only set this after it was successfully saved?
 	            this.props.actions.saveList(this.state.list);
 	            this.props.actions.disableEditing();
@@ -26033,7 +26032,6 @@
 	        value: function cancel() {
 	            var _this3 = this;
 	
-	            console.log('cancel');
 	            this.setState(function (previousState) {
 	                return (0, _reactAddonsUpdate2.default)(previousState, {
 	                    //enableEditing: {$set: false},
@@ -26058,14 +26056,12 @@
 	    }, {
 	        key: 'deleteLearnItem',
 	        value: function deleteLearnItem(learnItemId) {
-	            console.log('deleting learnitem with id: ' + learnItemId);
 	            this.props.itemActions.deleteLearnItem(learnItemId);
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var that = this;
-	            console.log('rendering, state: ' + JSON.stringify(this.state));
 	            return _react2.default.createElement(
 	                'div',
 	                null,
