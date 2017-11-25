@@ -25960,7 +25960,7 @@
 	        value: function componentWillReceiveProps(nextProps) {
 	            this.setState(function (previousState) {
 	                return (0, _reactAddonsUpdate2.default)(previousState, {
-	                    enableEditing: { $set: false },
+	                    //enableEditing: {$set: false},
 	                    list: { $set: nextProps.list },
 	                    learnItems: { $set: nextProps.learnItems }
 	                });
@@ -25996,13 +25996,19 @@
 	    }, {
 	        key: 'changeEditing',
 	        value: function changeEditing() {
+	            console.log('changing editing to ' + !this.state.enableEditing);
 	            this.setState({ enableEditing: !this.state.enableEditing });
 	        }
 	    }, {
 	        key: 'save',
 	        value: function save() {
-	            //this.setState(Object.assign(this.state,{changedSinceLastSave:false})); //TODO maybe only set this after it was successfully saved?
+	            this.setState(Object.assign(this.state, { changedSinceLastSave: false })); //TODO maybe only set this after it was successfully saved?
 	            this.props.actions.saveList(this.state.list);
+	            this.setState(function (previousState) {
+	                return (0, _reactAddonsUpdate2.default)(previousState, {
+	                    enableEditing: { $set: false }
+	                });
+	            });
 	        }
 	    }, {
 	        key: 'cancel',
@@ -26082,15 +26088,19 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        null,
-	                        _react2.default.createElement(
+	                        this.state.changedSinceLastSave && _react2.default.createElement(
 	                            'button',
-	                            { onClick: this.save, className: this.state.changedSinceLastSave ? "btn btn-success" : "btn btn-secondary" },
+	                            { onClick: this.save, className: 'btn btn-success' },
 	                            'Save'
 	                        ),
-	                        '  ',
+	                        !this.state.changedSinceLastSave && _react2.default.createElement(
+	                            'button',
+	                            { onClick: this.save, className: 'btn btn-secondary' },
+	                            'Save'
+	                        ),
 	                        _react2.default.createElement(
 	                            'button',
-	                            { onClick: this.cancel, className: this.state.changedSinceLastSave ? "btn btn-warning" : "btn btn-secondary" },
+	                            { onClick: this.cancel, className: 'btn btn-warning' },
 	                            'Cancel changes'
 	                        )
 	                    )
@@ -26137,6 +26147,7 @@
 	            list: Object.assign({}, state.listsContext.activeList)
 	        };
 	    }
+	    //console.log('isOwnerOfList: '+isOwnerOfList(state));
 	
 	    return {
 	        ajaxCallsInProgress: state.ajaxCallsInProgress,
