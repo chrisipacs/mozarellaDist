@@ -25927,7 +25927,8 @@
 	
 	        var _this = _possibleConstructorReturn(this, (ListPage.__proto__ || Object.getPrototypeOf(ListPage)).call(this, props, context));
 	
-	        _this.changeEditing = _this.changeEditing.bind(_this);
+	        _this.flipEditing = _this.flipEditing.bind(_this);
+	        _this.changeEditingToTrue = _this.changeEditingToTrue.bind(_this);
 	        _this.updateListName = _this.updateListName.bind(_this);
 	        _this.updateListDescription = _this.updateListDescription.bind(_this);
 	        _this.save = _this.save.bind(_this);
@@ -25994,10 +25995,16 @@
 	            this.setState(Object.assign({}, this.state, { list: Object.assign(this.state.list, { description: value }), changedSinceLastSave: true }));
 	        }
 	    }, {
-	        key: 'changeEditing',
-	        value: function changeEditing() {
+	        key: 'flipEditing',
+	        value: function flipEditing() {
 	            console.log('changing editing to ' + !this.state.enableEditing);
 	            this.setState({ enableEditing: !this.state.enableEditing });
+	        }
+	    }, {
+	        key: 'changeEditingToTrue',
+	        value: function changeEditingToTrue() {
+	            console.log('changing editing to true');
+	            this.setState({ enableEditing: true });
 	        }
 	    }, {
 	        key: 'save',
@@ -26070,7 +26077,7 @@
 	                    null,
 	                    _react2.default.createElement(
 	                        'button',
-	                        { onClick: this.changeEditing, className: this.props.ajaxCallsInProgress ? "btn btn-primary disabled" : "btn btn-primary" },
+	                        { onClick: this.changeEditingToTrue, className: this.props.ajaxCallsInProgress ? "btn btn-primary disabled" : "btn btn-primary" },
 	                        'Enable editing'
 	                    ),
 	                    ' '
