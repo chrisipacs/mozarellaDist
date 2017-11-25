@@ -1086,6 +1086,9 @@
 	var SAVE_LIST = exports.SAVE_LIST = 'SAVE_LIST'; //do we need this
 	var CLEAR_ACTIVE_LIST = exports.CLEAR_ACTIVE_LIST = 'CLEAR_ACTIVE_LIST';
 	
+	var ENABLE_EDITING = exports.ENABLE_EDITING = 'ENABLE_EDITING';
+	var DISABLE_EDITING = exports.DISABLE_EDITING = 'DISABLE_EDITING';
+	
 	//student' lists
 	var SIGNUP_STUDENT_TO_LIST_SUCCESS = exports.SIGNUP_STUDENT_TO_LIST_SUCCESS = 'SIGNUP_STUDENT_TO_LIST_SUCCESS';
 	var DEREGISTER_STUDENT_FROM_LIST_SUCCESS = exports.DEREGISTER_STUDENT_FROM_LIST_SUCCESS = 'DEREGISTER_STUDENT_FROM_LIST_SUCCESS';
@@ -3892,6 +3895,8 @@
 	    value: true
 	});
 	exports.loadListsSuccess = loadListsSuccess;
+	exports.enableEditing = enableEditing;
+	exports.disableEditing = disableEditing;
 	exports.loadStudentListsSuccess = loadStudentListsSuccess;
 	exports.browseListsSuccess = browseListsSuccess;
 	exports.saveListSuccess = saveListSuccess;
@@ -3924,6 +3929,14 @@
 	
 	function loadListsSuccess(lists, totalCount) {
 	    return { type: types.LOAD_LISTS_SUCCESS, lists: lists, totalCount: totalCount };
+	}
+	
+	function enableEditing() {
+	    return { type: types.ENABLE_EDITING };
+	}
+	
+	function disableEditing() {
+	    return { type: types.DISABLE_EDITING };
 	}
 	
 	function loadStudentListsSuccess(lists, totalCount) {
@@ -4056,6 +4069,7 @@
 	        lists: [],
 	        browseLists: false,
 	        totalCount: 0,
+	        enableEditing: false,
 	        activeList: {
 	            name: '',
 	            isPublic: true,
@@ -25927,7 +25941,7 @@
 	
 	        var _this = _possibleConstructorReturn(this, (ListPage.__proto__ || Object.getPrototypeOf(ListPage)).call(this, props, context));
 	
-	        _this.flipEditing = _this.flipEditing.bind(_this);
+	        _this.disableEditing = _this.disableEditing.bind(_this);
 	        _this.changeEditingToTrue = _this.changeEditingToTrue.bind(_this);
 	        _this.updateListName = _this.updateListName.bind(_this);
 	        _this.updateListDescription = _this.updateListDescription.bind(_this);
@@ -25995,16 +26009,16 @@
 	            this.setState(Object.assign({}, this.state, { list: Object.assign(this.state.list, { description: value }), changedSinceLastSave: true }));
 	        }
 	    }, {
-	        key: 'flipEditing',
-	        value: function flipEditing() {
+	        key: 'disableEditing',
+	        value: function disableEditing() {
 	            console.log('changing editing to ' + !this.state.enableEditing);
-	            this.setState({ enableEditing: !this.state.enableEditing });
+	            this.props.actions.disableEditing();
 	        }
 	    }, {
 	        key: 'changeEditingToTrue',
 	        value: function changeEditingToTrue() {
 	            console.log('changing editing to true');
-	            this.setState({ enableEditing: true });
+	            this.props.actions.enableEditing();
 	        }
 	    }, {
 	        key: 'save',
@@ -26012,11 +26026,7 @@
 	            console.log('save');
 	            this.setState(Object.assign(this.state, { changedSinceLastSave: false })); //TODO maybe only set this after it was successfully saved?
 	            this.props.actions.saveList(this.state.list);
-	            this.setState(function (previousState) {
-	                return (0, _reactAddonsUpdate2.default)(previousState, {
-	                    enableEditing: { $set: false }
-	                });
-	            });
+	            this.props.actions.disableEditing();
 	        }
 	    }, {
 	        key: 'cancel',
@@ -26026,11 +26036,12 @@
 	            console.log('cancel');
 	            this.setState(function (previousState) {
 	                return (0, _reactAddonsUpdate2.default)(previousState, {
-	                    enableEditing: { $set: false },
+	                    //enableEditing: {$set: false},
 	                    changedSinceLastSave: { $set: false },
 	                    list: { $set: _this3.props.list }
 	                });
 	            });
+	            this.props.actions.disableEditing();
 	        }
 	    }, {
 	        key: 'handlePageChange',
@@ -26063,19 +26074,19 @@
 	                    null,
 	                    _react2.default.createElement(_reactContenteditable2.default, {
 	                        name: 'title',
-	                        html: this.state.enableEditing // innerHTML of the editable div
-	                        , disabled: !this.state.enableEditing // use true to disable edition
+	                        html: this.state.list.name // innerHTML of the editable div
+	                        , disabled: !this.props.enableEditing // use true to disable edition
 	                        , onChange: this.updateListName // handle innerHTML change
 	                    })
 	                ),
 	                _react2.default.createElement(_reactContenteditable2.default, {
 	                    name: 'description',
 	                    html: that.state.list.description // innerHTML of the editable div
-	                    , disabled: !this.state.enableEditing // use true to disable edition
+	                    , disabled: !this.props.enableEditing // use true to disable edition
 	                    , onChange: this.updateListDescription // handle innerHTML change
 	                }),
 	                _react2.default.createElement('br', null),
-	                this.props.hasPermissionToEdit && this.props.isOwnerOfList && !that.state.enableEditing && _react2.default.createElement(
+	                this.props.hasPermissionToEdit && this.props.isOwnerOfList && !that.props.enableEditing && _react2.default.createElement(
 	                    'div',
 	                    null,
 	                    _react2.default.createElement(
@@ -26085,7 +26096,7 @@
 	                    ),
 	                    ' '
 	                ),
-	                this.state.enableEditing && _react2.default.createElement(
+	                this.props.enableEditing && _react2.default.createElement(
 	                    'div',
 	                    null,
 	                    _react2.default.createElement(
@@ -26167,7 +26178,8 @@
 	        learnItemPages: state.listsContext.activeList.learnItems.pages,
 	        learnItems: state.listsContext.activeList.learnItems.pages[state.listsContext.activeList.learnItems.activePage],
 	        hasPermissionToEdit: state.listsContext.activeList.owner,
-	        isOwnerOfList: (0, _helperFunctions.isOwnerOfList)(state)
+	        isOwnerOfList: (0, _helperFunctions.isOwnerOfList)(state),
+	        enableEditing: state.listsContext.enableEditing
 	    };
 	}
 	
@@ -27841,6 +27853,14 @@
 	                });
 	
 	                return _newState2;
+	            }
+	        case types.ENABLE_EDITING:
+	            {
+	                return Object.assign({}, state, { enableEditing: true });
+	            }
+	        case types.DISABLE_EDITING:
+	            {
+	                return Object.assign({}, state, { enableEditing: false });
 	            }
 	        default:
 	            return state;
