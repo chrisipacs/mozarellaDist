@@ -26085,10 +26085,16 @@
 	                        , onChange: this.updateListName // handle innerHTML change
 	                    })
 	                ),
-	                _react2.default.createElement(_reactContenteditable2.default, {
+	                this.props.enableEditing && _react2.default.createElement(_reactContenteditable2.default, {
 	                    name: 'description',
 	                    html: that.state.list.description // innerHTML of the editable div
-	                    , disabled: !this.props.enableEditing // use true to disable edition
+	                    , disabled: false // use true to disable edition
+	                    , onChange: this.updateListDescription // handle innerHTML change
+	                }),
+	                !this.props.enableEditing && _react2.default.createElement(_reactContenteditable2.default, {
+	                    name: 'description',
+	                    html: that.state.list.description // innerHTML of the editable div
+	                    , disabled: true // use true to disable edition
 	                    , onChange: this.updateListDescription // handle innerHTML change
 	                }),
 	                _react2.default.createElement('br', null),
