@@ -26072,10 +26072,16 @@
 	                _react2.default.createElement(
 	                    'h1',
 	                    null,
-	                    _react2.default.createElement(_reactContenteditable2.default, {
+	                    this.props.enableEditing && _react2.default.createElement(_reactContenteditable2.default, {
 	                        name: 'title',
 	                        html: this.state.list.name // innerHTML of the editable div
-	                        , disabled: !this.props.enableEditing // use true to disable edition
+	                        , disabled: false // use true to disable edition
+	                        , onChange: this.updateListName // handle innerHTML change
+	                    }),
+	                    !this.props.enableEditing && _react2.default.createElement(_reactContenteditable2.default, {
+	                        name: 'title',
+	                        html: this.state.list.name // innerHTML of the editable div
+	                        , disabled: true // use true to disable edition
 	                        , onChange: this.updateListName // handle innerHTML change
 	                    })
 	                ),
