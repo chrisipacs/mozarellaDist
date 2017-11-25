@@ -26064,14 +26064,14 @@
 	                    _react2.default.createElement(_reactContenteditable2.default, {
 	                        name: 'title',
 	                        html: that.state.list.name // innerHTML of the editable div
-	                        , disabled: !that.state.enableEditing // use true to disable edition
+	                        , disabled: false // use true to disable edition
 	                        , onChange: this.updateListName // handle innerHTML change
 	                    })
 	                ),
 	                _react2.default.createElement(_reactContenteditable2.default, {
 	                    name: 'description',
 	                    html: that.state.list.description // innerHTML of the editable div
-	                    , disabled: !that.state.enableEditing // use true to disable edition
+	                    , disabled: false // use true to disable edition
 	                    , onChange: this.updateListDescription // handle innerHTML change
 	                }),
 	                _react2.default.createElement('br', null),
