@@ -26009,6 +26009,7 @@
 	    }, {
 	        key: 'save',
 	        value: function save() {
+	            console.log('save');
 	            this.setState(Object.assign(this.state, { changedSinceLastSave: false })); //TODO maybe only set this after it was successfully saved?
 	            this.props.actions.saveList(this.state.list);
 	            this.setState(function (previousState) {
@@ -26022,6 +26023,7 @@
 	        value: function cancel() {
 	            var _this3 = this;
 	
+	            console.log('cancel');
 	            this.setState(function (previousState) {
 	                return (0, _reactAddonsUpdate2.default)(previousState, {
 	                    enableEditing: { $set: false },
@@ -26052,6 +26054,7 @@
 	        key: 'render',
 	        value: function render() {
 	            var that = this;
+	            console.log('rendering');
 	            return _react2.default.createElement(
 	                'div',
 	                null,
