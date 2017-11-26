@@ -24780,6 +24780,11 @@
 	                    _react2.default.createElement(
 	                        'li',
 	                        null,
+	                        'Registration and login'
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        null,
 	                        'Creation of learnItemLists'
 	                    ),
 	                    _react2.default.createElement(
@@ -24811,17 +24816,21 @@
 	                _react2.default.createElement(
 	                    'h2',
 	                    null,
-	                    'Things that are not implemented yet:'
+	                    'Things that are not implemented yet'
 	                ),
 	                _react2.default.createElement(
-	                    'li',
+	                    'ul',
 	                    null,
-	                    'Settings page'
-	                ),
-	                _react2.default.createElement(
-	                    'li',
-	                    null,
-	                    'Collected points are not sent to the server yet (however, the results themselves are stored, and taken into consideration when selecting the next learnItems to learn)'
+	                    _react2.default.createElement(
+	                        'li',
+	                        null,
+	                        'Settings page'
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        null,
+	                        'Collected points are not sent to the server yet (however, the results themselves are stored, and taken into consideration when selecting the next learnItems to learn)'
+	                    )
 	                )
 	            );
 	        }
@@ -27464,9 +27473,10 @@
 	                { className: 'alignleft' },
 	                _react2.default.createElement(
 	                    _reactRouter.IndexLink,
-	                    { to: '/lists', activeClassName: 'active' },
+	                    { to: '/', activeClassName: 'active' },
 	                    'Home'
 	                ),
+	                " | ",
 	                _react2.default.createElement(
 	                    _reactRouter.Link,
 	                    { to: '/lists', activeClassName: 'active' },
