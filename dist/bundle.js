@@ -24767,12 +24767,61 @@
 	                _react2.default.createElement(
 	                    'h1',
 	                    null,
-	                    'Pet'
+	                    'Welcome'
 	                ),
 	                _react2.default.createElement(
-	                    'p',
+	                    'h2',
 	                    null,
-	                    'Here you can view your pet in the future'
+	                    'Already implemented functionality'
+	                ),
+	                _react2.default.createElement(
+	                    'ul',
+	                    null,
+	                    _react2.default.createElement(
+	                        'li',
+	                        null,
+	                        'Creation of learnItemLists'
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        null,
+	                        'Adding LearnItems (words/expressions) to existing lists'
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        null,
+	                        'Subscribing to lists'
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        null,
+	                        'Practicing learnItems (after correct answer, the item doesn\u2019t appear for the next 24 hours)'
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        null,
+	                        'Editing lists (editing list name, description, deleting learnItems from list) - every user can subscribe to any list, but can only edit the ones created by them'
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        null,
+	                        'Built in dictionary when adding learnItems based on the list\u2019s specified languages'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'h2',
+	                    null,
+	                    'Things that are not implemented yet:'
+	                ),
+	                _react2.default.createElement(
+	                    'li',
+	                    null,
+	                    'Settings page'
+	                ),
+	                _react2.default.createElement(
+	                    'li',
+	                    null,
+	                    'Collected points are not sent to the server yet (however, the results themselves are stored, and taken into consideration when selecting the next learnItems to learn)'
 	                )
 	            );
 	        }
@@ -27415,6 +27464,11 @@
 	                { className: 'alignleft' },
 	                _react2.default.createElement(
 	                    _reactRouter.IndexLink,
+	                    { to: '/lists', activeClassName: 'active' },
+	                    'Home'
+	                ),
+	                _react2.default.createElement(
+	                    _reactRouter.Link,
 	                    { to: '/lists', activeClassName: 'active' },
 	                    'Courses'
 	                ),
