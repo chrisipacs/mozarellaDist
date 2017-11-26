@@ -25810,6 +25810,7 @@
 	                activePage: 0,
 	                totalCount: 0 //todo: move this to the store, and props
 	            };
+	            this.props.actions.loadLists(0, _learnItemListPageSize2.default);
 	        }
 	    }, {
 	        key: 'handlePageChange',
