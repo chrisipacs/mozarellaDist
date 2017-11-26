@@ -27768,6 +27768,10 @@
 	            {
 	                return Object.assign({}, state, { loadingInProgress: true });
 	            }
+	        case types.LOGOUT_SUCCESS:
+	            {
+	                return {};
+	            }
 	        default:
 	            return state;
 	    }
