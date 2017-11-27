@@ -25810,13 +25810,13 @@
 	                activePage: 0,
 	                totalCount: 0 //todo: move this to the store, and props
 	            };
-	            this.props.actions.loadLists(0, _learnItemListPageSize2.default);
+	            this.props.actions.loadLists(0, _learnItemListPageSize2.default, this.props.studentId);
 	        }
 	    }, {
 	        key: 'handlePageChange',
 	        value: function handlePageChange(pageNumber) {
 	            this.setState({ activePage: pageNumber });
-	            this.props.actions.loadLists(pageNumber - 1, _learnItemListPageSize2.default);
+	            this.props.actions.loadLists(pageNumber - 1, _learnItemListPageSize2.default, this.props.studentId);
 	        }
 	    }, {
 	        key: 'render',
@@ -25843,7 +25843,8 @@
 	function mapStateToProps(state, ownProps) {
 	    return {
 	        lists: state.studentContext.listsContext.lists,
-	        totalCount: state.studentContext.listsContext.totalCount
+	        totalCount: state.studentContext.listsContext.totalCount,
+	        studentId: state.studentContext.student.id
 	    };
 	}
 	
